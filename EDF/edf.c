@@ -132,7 +132,7 @@ void getPeriodosMMC()
 }
 
 // Schedulability
-// Avalia a capacidade do processo seja executado dentro do seu período.
+// Avalia a capacidade do processo para que seja executado dentro do seu período.
 float capacidadeEscalonamento()
 {
 	float cond = 0;
