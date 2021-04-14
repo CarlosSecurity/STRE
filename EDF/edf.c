@@ -3,16 +3,18 @@
 #include <stdlib.h>
 #include <locale.h>
 
+#define MAX 1000
+
 // Protótipos de função
 void getProcessos();
 void getPeriodosMMC();
-float capacidadeParaEscalonar();
+float capacidade();
 void schedule();
 
 int processosNum;
-int ProcessosExecutionTime[1000];
-int ProcessosDeadline[1000];
-int ProcessosPeriodo[1000];
+int ProcessosExecutionTime[MAX];
+int ProcessosDeadline[MAX];
+int ProcessosPeriodo[MAX];
 int PeriodosMMC;
 
 char aux[255];
@@ -31,7 +33,7 @@ int main()
 	getPeriodosMMC();
 	
 	printf("\n\nTeste da Capacidade para ser Schedulado:\n");
-	f = capacidadeParaEscalonar();
+	f = capacidade();
 	if(f <= 1)
 	{
 		printf("\n Pode ser Escalonado: ( %f <= 1 )", f);
@@ -50,23 +52,29 @@ int main()
 	return 0;
 }
 
-
+// Configura os processos, declarando-os com as propriedades passadas no arquivo 'input';
 void getProcessos()
 {
 	// Abrindo o arquivo;
 	FILE *InputFile;
 	InputFile = fopen("input", "r");
+
+	// Número de Processos
 	fgets(aux, 255, InputFile);
 	processosNum = atoi(aux);
+
 	// Recebendo os processos do arquivo input.txt;
 	for ( i = 0; i < processosNum; i++)
 	{
+		// Capacidade
 		fgets(aux, 255, InputFile);
 		ProcessosExecutionTime[i]= atoi(aux);
 		
+		// Deadline
 		fgets(aux, 255, InputFile);
 		ProcessosDeadline[i]= atoi(aux);
 		
+		// Periodos
 		fgets(aux, 255, InputFile);
 		ProcessosPeriodo[i]= atoi(aux);
 	}
@@ -124,7 +132,8 @@ void getPeriodosMMC()
 	
 }
 
-float capacidadeParaEscalonar()
+// Mapeia a capacidade para que o processo seja executado antes que o prazo (deadline) finalize.
+float capacidade()
 {
 	float cond = 0;
 	float x,y;
@@ -150,7 +159,7 @@ void schedule()
 	int proxDeadline[1000];
 	int processoNovoPeriodo[1000];
 
-
+	// Loading nas propriedades (Inicialização)
 	for( i=0 ; i < processosNum ; i++ )
 	{
 		proxDeadline[i] = ProcessosDeadline[i];
@@ -159,7 +168,7 @@ void schedule()
 	}
 
 
-	// Tempo de Agendamento | Histórico
+	// Tempo para Escalonaento | Histórico
 	FILE *OutputFile;
 	OutputFile = fopen("output", "w");
 	fprintf(OutputFile, "Periodos - MMC = %d\n",PeriodosMMC);
