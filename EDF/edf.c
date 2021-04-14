@@ -8,7 +8,7 @@
 // Protótipos de função
 void getProcessos();
 void getPeriodosMMC();
-float capacidade();
+float capacidadeEscalonamento();
 void schedule();
 
 int processosNum;
@@ -32,8 +32,7 @@ int main()
 	
 	getPeriodosMMC();
 	
-	printf("\n\nTeste da Capacidade para ser Schedulado:\n");
-	f = capacidade();
+	f = capacidadeEscalonamento();
 	if(f <= 1)
 	{
 		printf("\n Pode ser Escalonado: ( %f <= 1 )", f);
@@ -132,8 +131,9 @@ void getPeriodosMMC()
 	
 }
 
-// Mapeia a capacidade para que o processo seja executado antes que o prazo (deadline) finalize.
-float capacidade()
+// Schedulability
+// Avalia a capacidade do processo seja executado dentro do seu período.
+float capacidadeEscalonamento()
 {
 	float cond = 0;
 	float x,y;
@@ -172,9 +172,10 @@ void schedule()
 	FILE *OutputFile;
 	OutputFile = fopen("output", "w");
 	fprintf(OutputFile, "Periodos - MMC = %d\n",PeriodosMMC);
+
 	for(i=0; i<PeriodosMMC; i++)
 	{
-		printf("\n|\t(%d,%d) : ",i,i+1);
+		printf("\n|\t(%d,%d) : ",i,i+1); // Rastrei por unidade;
 			
 			//Pegar o primeiro DeadLine
 			primeiroDeadline = PeriodosMMC;
@@ -186,10 +187,9 @@ void schedule()
 				 	
 				 	if(primeiroDeadline > proxDeadline[j])
 				 	{
-				 		
 				 		primeiroDeadline = proxDeadline[j];
 				 		primeiroDeadlineIndice = j;
-					 }
+					}
 				 }
 			}
 			printf("\t[execution = %d] ",primeiroDeadlineIndice);
