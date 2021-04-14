@@ -5,15 +5,15 @@
 
 // Protótipos de função
 void getProcessos();
-void getPeriodosLCM();
-float capacidadeParaAgendar();
-void agendamento();
+void getPeriodosMMC();
+float capacidadeParaEscalonar();
+void schedule();
 
 int processosNum;
 int ProcessosExecutionTime[1000];
 int ProcessosDeadline[1000];
 int ProcessosPeriodo[1000];
-int PeriodosLCM;
+int PeriodosMMC;
 
 char aux[255];
 int i,j,h;
@@ -28,26 +28,21 @@ int main()
 	printf("\nSistema:\n");
 	getProcessos();
 	
-	
-	
-	printf("\n\nPeriodos LCM :\n");
-	getPeriodosLCM();
-	
-	
+	getPeriodosMMC();
 	
 	printf("\n\nTeste da Capacidade para ser Schedulado:\n");
-	f = capacidadeParaAgendar();
+	f = capacidadeParaEscalonar();
 	if(f <= 1)
 	{
-		printf("\n Pode ser Schedulado: ( %f <= 1 )", f);
-		agendamento();
+		printf("\n Pode ser Escalonado: ( %f <= 1 )", f);
+		schedule();
 	}
 	else
 	{
-		printf("\nNao pode ser Schedulado ( %f > 1 )",f);
+		printf("\nNao pode ser Escalonado ( %f > 1 )",f);
 		FILE *OutputFile;
-		OutputFile = fopen("output.txt", "w");
-		fprintf(OutputFile, "Nao pode ser Schedulado ( %f > 1 )",f);
+		OutputFile = fopen("output", "w");
+		fprintf(OutputFile, "Nao pode ser Escalonado ( %f > 1 )",f);
 		fclose(OutputFile);
 		exit(0);
 	}
@@ -87,7 +82,9 @@ void getProcessos()
 	
 	
 }
-void getPeriodosLCM()
+
+
+void getPeriodosMMC()
 {
 	int aux[1000];
 	for ( i=0 ; i < processosNum ; i++)
@@ -122,12 +119,12 @@ void getPeriodosLCM()
 			aux[menorValorIndice] = menorValorAux + ProcessosPeriodo[menorValorIndice];
 		}	
 	}
-	PeriodosLCM = aux[0];
-	printf("Podemos agendar o Sistemas em %d unidades ( [Periodos do Processos] LCM:%d)",PeriodosLCM,PeriodosLCM);
+	PeriodosMMC = aux[0];
+	printf("Podemos escalonar(schedular) o Sistemas em %d unidades ( [Periodos] MMC:%d)",PeriodosMMC,PeriodosMMC);
 	
 }
 
-float capacidadeParaAgendar()
+float capacidadeParaEscalonar()
 {
 	float cond = 0;
 	float x,y;
@@ -143,30 +140,35 @@ float capacidadeParaAgendar()
 	return cond;
 }
 
-void agendamento()
+// Política de Seleção
+void schedule()
 {
 	int primeiroDeadline;
 	int primeiroDeadlineIndice;
-	int TabelaAgendamento[PeriodosLCM];
+	int Tabelaschedule[PeriodosMMC];
 	int capacidadeRestante[1000];
 	int proxDeadline[1000];
 	int processoNovoPeriodo[1000];
+
+
 	for( i=0 ; i < processosNum ; i++ )
 	{
 		proxDeadline[i] = ProcessosDeadline[i];
 		capacidadeRestante[i] = ProcessosExecutionTime[i];
 		processoNovoPeriodo[i] = 0;
 	}
+
+
 	// Tempo de Agendamento | Histórico
 	FILE *OutputFile;
-	OutputFile = fopen("outputc", "w");
-	fprintf(OutputFile, "Periodos LCM = %d\n",PeriodosLCM);
-	for(i=0; i<PeriodosLCM; i++)
+	OutputFile = fopen("output", "w");
+	fprintf(OutputFile, "Periodos - MMC = %d\n",PeriodosMMC);
+	for(i=0; i<PeriodosMMC; i++)
 	{
-		printf("\n(%d,%d) : ",i,i+1);
+		printf("\n|\t(%d,%d) : ",i,i+1);
 			
 			//Pegar o primeiro DeadLine
-			primeiroDeadline = PeriodosLCM;
+			primeiroDeadline = PeriodosMMC;
 			primeiroDeadlineIndice = -1;
 			for(j=0 ; j<processosNum ; j++)
 			{
@@ -181,8 +183,8 @@ void agendamento()
 					 }
 				 }
 			}
-			printf("     [exc = %d] ",primeiroDeadlineIndice);
-			fprintf(OutputFile, "(%d,%d) :   [exc = %d]\n",i,i+1,primeiroDeadlineIndice);
+			printf("\t[execution = %d] ",primeiroDeadlineIndice);
+			fprintf(OutputFile, "|\t(%d,%d) :\t[execution = %d]|\n",i,i+1,primeiroDeadlineIndice);
 			capacidadeRestante[primeiroDeadlineIndice]--;
 			
 			//Pegar a distância do próximo DeadLine	
