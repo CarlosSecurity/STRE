@@ -30,7 +30,7 @@ int main() {
 	findAvgTime(Processes, processesNum, ProcessBurstTime);
     return 0;
 }
-
+ 
 void getProcesses()
 {
 	// Abrindo o arquivo;
