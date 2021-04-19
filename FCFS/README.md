@@ -1,6 +1,6 @@
 *** FIRST COME FIRST SERVED ***
 
-	Algoritmo de escalonamento mais. simples que programa de acordo com os tempos de chegada (arrivel time) dos processos. O algoritmo de FCFS afirma que o processo que solicita a CPU primeiro é
+	Algoritmo de escalonamento mais simples que programa de acordo com os tempos de chegada (arrivel time) dos processos. O algoritmo de FCFS afirma que o processo que solicita a CPU primeiro é
 	alocado à CPU primeiro
 
 	O FCFS é implementado usando uma fila FIFO. Quando um processo entra na fila de prontidão (aptos),
