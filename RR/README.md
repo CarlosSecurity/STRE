@@ -19,8 +19,10 @@
 
 * Para compilar o código, execute o comando em seu terminal, já com o compilador C instalado:
 	```shell
-	$gcc rr.c -o <output-name>
+	$gcc rr.c -o <output-name> -std=c18
 	```
+	OBS: definimos com o '-std=c18', qual padrão da linguagem estamos utilizando, no nosso caso, 
+	o padrão da linguagem C de 2018 está sendo utilizada.
 
 * Com o código compilado, devemos configurar as propriedades de nossos processos para o algoritmo de escalonamento à partir do arquivo 'input', já disposto no repositório.
 

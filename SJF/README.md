@@ -8,8 +8,11 @@
 
 * Para compilar o código, execute o comando em seu terminal, já com o compilador C instalado:
 	```shell
-	$gcc sjf.c -o <output-name>
+	$gcc sjf.c -o <output-name> -std=c18
 	```
+
+	OBS: definimos com o '-std=c18', qual padrão da linguagem estamos utilizando, no nosso caso, 
+	o padrão da linguagem C de 2018 está sendo utilizada.
 
 * Com o código compilado, devemos configurar as propriedades de nossos processos para o algoritmo de escalonamento à partir do arquivo 'input', já disposto no repositório.
 
@@ -20,8 +23,8 @@
 			4 	// número de processos\
 			6 	// BurstTime do primeiro processo\
 			8 	// BurstTime do segundo processo\
-			7 	// BurstTime do segundo processo\
-			3 	// BurstTime do segundo processo\
+			7 	// BurstTime do terceiro processo\
+			3 	// BurstTime do quarto processo\
 
 
 
@@ -32,6 +35,7 @@
 ```shell
 $./<output-name> input
 ```
+
 
 * Com a execução concluída, todo atividade foi impressa no terminal e um arquivo 'output' foi gerado com o registro da atividade.
 

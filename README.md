@@ -1,7 +1,5 @@
 # STRE
 Repositório de para o projeto de 'Sistemas em Tempo Real e Embarcados'
-
-
 # Componentes do grupo
   
   - Carlos Leonardo Machado Lago 21709338 - carlos.leonardo@sempreceub.com
